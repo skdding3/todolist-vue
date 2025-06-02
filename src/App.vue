@@ -4,7 +4,9 @@
     <input v-model="newTodo" @keyup.enter="addTodo" placeholder="할 일을 입력하세요" />
     <ul>
       <li v-for="(todo, index) in todos" :key="index">
-        {{ todo }}
+        <input type="checkbox" v-model="todo.done" />
+        <span :class="{ done: todo.done }">{{ todo.text }}</span>
+        <button @click="removeTodo(index)">삭제</button>
       </li>
     </ul>
   </div>
@@ -18,9 +20,14 @@
   // 추가 기능
   const addTodo = () => {
     if (newTodo.value.trim()) {
-      todos.value.push(newTodo.value)
+      todos.value.push({ text: newTodo.value, done: false })
       newTodo.value = ''
     }
+  }
+
+  // 삭제 기능
+  const removeTodo = (index) => {
+    todos.value.splice(index, 1)
   }
 </script>
 <style lang="">
